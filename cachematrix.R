@@ -40,6 +40,7 @@ cacheSolve <- function(x, ...) {
         message("getting cached data")
         return(s)
     }
+    ##
     data<-x$get()
     s<-solve(data)
     x$setSolve(s)
