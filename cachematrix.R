@@ -1,48 +1,53 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Function makeCacheMatrix create list of functions to store, get and set matrix 
-## and invertion of matrix.
+## Created by ludviq for "R Programing|Coursera" course
+## fill free to use and distribute
 
 makeCacheMatrix <- function(x = matrix()) {
-  ## init values of unassignet invertion matrix
-  s <- matrix(, nrow = 1, ncol = 1)
-  # function to set new matrix
-  set<- function(y=matrix()) {
+ # Function makeCacheMatrix create list of functions.
+ # Listed function are used to store matrix and inversed matrix.
+ # If inverse is not calculated, null vector (length 1) is stored as inverse.
+ #
+ # Args:
+ # x: matrix that will be stored
+ #
+ # Returns:
+ #  List of function:
+ #  set: function to set the matrix
+ #  get: function to get the matrix
+ #  setSolve: function to set the inversed matrix
+ #  getSolve: function to get the inversed matrix
+ #  
+  s<-NULL  # init values of unassignet inversed matrix 
+  set<- function(y=matrix()) {  # function to set new matrix
       x<<-y
-      ## if new matrix is setting, invertion must be recalculated so empty matrix
-      s<<-matrix(, nrow = 1, ncol = 1)   
-  }
+      s<<-NULL
+  }  
   
-  ## get the matrix function
-  get<-function() x
-  
-  ## invertion function of matrix (matrix supplied must be always invertible)
-  setSolve <- function(Solve) s <<-Solve
-  
-  ## get the solve matrix
-  getSolve <-function() s
-  
-  ## returning list of above functions
+  get<-function() x # function to get the matrix  
+  setSolve <- function(Solve) s <<-Solve # function to set the inversed matrix  
+  getSolve <-function() s # funtion to set inversed matrix
+ # returning list of functions
   list(set=set,get=get,setSolve=setSolve,getSolve=getSolve) 
-
 }
 
-
-## Write a short comment describing this function
-
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-
+ # Function used to calculate invertion of matrix.
+ # If inverted matrix was caculated then is loaded from cache using makeCacheMatrix functoion
+ #
+ # Args:
+ # x: cache matrix created by makeCacheMarix function
+ #
+ # Returns:
+ # inverted matrix
+ #
+ # Assumptions: the input matrix is always invertible
     s<- x$getSolve()
-    if(!identical(s,matrix(, nrow = 1, ncol = 1) ) )
+    if(!is.null(s))
     {
         message("getting cached data")
         return(s)
     }
-    ##
     data<-x$get()
-    s<-solve(data)
+    s<-solve(data) # calculat invertion using solve() function
     x$setSolve(s)
-    s
+    s #inverted matrix
 }
